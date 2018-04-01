@@ -35,6 +35,9 @@ export default {
       var rgba = this.colors.rgba
       var rgbStr = [rgba.r, rgba.g, rgba.b].join(',')
       return 'linear-gradient(to right, rgba(' + rgbStr + ', 0) 0%, rgba(' + rgbStr + ', 1) 100%)'
+    },
+    win () {
+      return this.$refs.container.ownerDocument.defaultView
     }
   },
   methods: {
@@ -43,7 +46,7 @@ export default {
       var container = this.$refs.container
       var containerWidth = container.clientWidth
 
-      var xOffset = container.getBoundingClientRect().left + window.pageXOffset
+      var xOffset = container.getBoundingClientRect().left + this.win.pageXOffset
       var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
       var left = pageX - xOffset
 
@@ -68,15 +71,15 @@ export default {
     },
     handleMouseDown (e) {
       this.handleChange(e, true)
-      window.addEventListener('mousemove', this.handleChange)
-      window.addEventListener('mouseup', this.handleMouseUp)
+      this.win.addEventListener('mousemove', this.handleChange)
+      this.win.addEventListener('mouseup', this.handleMouseUp)
     },
     handleMouseUp () {
       this.unbindEventListeners()
     },
     unbindEventListeners () {
-      window.removeEventListener('mousemove', this.handleChange)
-      window.removeEventListener('mouseup', this.handleMouseUp)
+      this.win.removeEventListener('mousemove', this.handleChange)
+      this.win.removeEventListener('mouseup', this.handleMouseUp)
     }
   }
 }

@@ -58,6 +58,9 @@ export default {
         if (this.colors.hsl.h === 0 && this.pullDirection === 'right') return '100%'
         return (this.colors.hsl.h * 100) / 360 + '%'
       }
+    },
+    win () {
+      return this.$refs.container.ownerDocument.defaultView
     }
   },
   methods: {
@@ -68,8 +71,8 @@ export default {
       var containerWidth = container.clientWidth
       var containerHeight = container.clientHeight
 
-      var xOffset = container.getBoundingClientRect().left + window.pageXOffset
-      var yOffset = container.getBoundingClientRect().top + window.pageYOffset
+      var xOffset = container.getBoundingClientRect().left + this.win.pageXOffset
+      var yOffset = container.getBoundingClientRect().top + this.win.pageYOffset
       var pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0)
       var pageY = e.pageY || (e.touches ? e.touches[0].pageY : 0)
       var left = pageX - xOffset
@@ -120,15 +123,15 @@ export default {
     },
     handleMouseDown (e) {
       this.handleChange(e, true)
-      window.addEventListener('mousemove', this.handleChange)
-      window.addEventListener('mouseup', this.handleMouseUp)
+      this.win.addEventListener('mousemove', this.handleChange)
+      this.win.addEventListener('mouseup', this.handleMouseUp)
     },
     handleMouseUp (e) {
       this.unbindEventListeners()
     },
     unbindEventListeners () {
-      window.removeEventListener('mousemove', this.handleChange)
-      window.removeEventListener('mouseup', this.handleMouseUp)
+      this.win.removeEventListener('mousemove', this.handleChange)
+      this.win.removeEventListener('mouseup', this.handleMouseUp)
     }
   }
 }
