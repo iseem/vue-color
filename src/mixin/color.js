@@ -54,7 +54,8 @@ export default {
   props: ['value'],
   data () {
     return {
-      val: _colorChange(this.value)
+      val: _colorChange(this.value),
+      timer: null
     }
   },
   computed: {
@@ -63,8 +64,15 @@ export default {
         return this.val
       },
       set (newVal) {
+        var context = this
+
         this.val = newVal
         this.$emit('input', newVal)
+        
+        window.clearTimeout(this.timer)
+        this.timer = window.setTimeout(function(){
+          context.$emit('change', newVal)
+        }, 500)
       }
     }
   },
