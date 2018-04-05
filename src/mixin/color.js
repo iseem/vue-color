@@ -68,9 +68,9 @@ export default {
 
         this.val = newVal
         this.$emit('input', newVal)
-        
+
         window.clearTimeout(this.timer)
-        this.timer = window.setTimeout(function(){
+        this.timer = window.setTimeout(function () {
           context.$emit('change', newVal)
         }, 500)
       }
